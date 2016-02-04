@@ -26,12 +26,12 @@ func NewLiltWithReader(reader io.Reader, output io.Writer, pulse *time.Ticker) *
 // Run copies bytes from the input to the output
 func (l *Lilt) Run() error {
 	for {
-		<-l.pulse.C
 		if !l.input.Scan() {
 			return nil
 		}
 		l.output.Write(l.input.Bytes())
 		l.output.Write([]byte{0x0A})
+		<-l.pulse.C
 	}
 	return nil
 }
